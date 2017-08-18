@@ -21,47 +21,15 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    if(options.type == '1'){
-      wx.setNavigationBarTitle({
-        title: '巴厘岛',
-      })
-    }
-    if (options.type == '2') {
-      wx.setNavigationBarTitle({
-        title: '沙巴岛',
-      })
-    }
-    if (options.type == '3') {
-      wx.setNavigationBarTitle({
-        title: '芽庄',
-      })
-    }
-    if (options.type == '4') {
-      wx.setNavigationBarTitle({
-        title: '马尔代夫',
-      })
-    }
-    if (options.type == '5') {
-      wx.setNavigationBarTitle({
-        title: '普吉岛',
-      })
-    }
-    if (options.type == '6') {
-      wx.setNavigationBarTitle({
-        title: '长滩岛',
-      })
-    }
+    wx.setNavigationBarTitle({
+      title: options.title,
+    })
     netTool.getItemList(parseInt(options.type),(data)=>{
       wx.hideLoading()
       if ( data==undefined) {
       that.setData({
         isHaveData: false,
       })
-        wx.showToast({
-          title: '当前无产品信息',
-        })
-       
-        
       }
       
       var coverImage = 'http://omh0qz95c.bkt.clouddn.com/111499175319_.pic.jpg'

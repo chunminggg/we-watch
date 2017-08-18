@@ -37,7 +37,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    Promise.all([netWork.getMainScroll(), netWork.getMainThemeList()]).then(([data1,data2])=>{
+    Promise.all([netWork.getMainThemeList()]).then(([data2])=>{
         netWork.loginWithLeanCloud()
         wx.hideLoading()
        wx.getSystemInfo({
@@ -47,7 +47,7 @@ Page({
           winWidth: res.windowWidth,
           winHeight: res.windowHeight,
           dataArray:data2,
-          imageArray: data1
+          // imageArray: data1
         });
       }
 
@@ -58,7 +58,7 @@ Page({
   clickImageidx(e) {
     var idx = e.currentTarget.dataset.type + 1
     wx.navigateTo({
-      url: '../itemList/itemList?type=' + idx,
+      url: `../itemList/itemList?type=${idx}&title=${e.currentTarget.dataset.title}`
     })
   },
 })

@@ -93,10 +93,10 @@ var getTestData = {
   //获取列表
   getItemList(typeSign, successCallback) {
     var query = new AV.Query('Product')
-    query.equalTo('type', typeSign)
-    query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray'])
-    query.find().then((data) => {
+    query.equalTo('typeSelected', typeSign)
+    query.select(['name', 'type', 'detailContent', 'type', 'price', 'beiefIntro', 'imageArray'])
 
+    query.find().then((data) => {
       if (data.length) {
         var dataArray = []
 
