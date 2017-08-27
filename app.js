@@ -3,13 +3,17 @@ const AV = require('./libs/av-weapp-min.js')
 AV.init({
   appId: '6Wo8sisT5lxskzkRzBiNC1q7-gzGzoHsz',
   appKey: 'pALrNiV11a34GO3pWms6dKnJ',
-})
+});
+
 App({
   onLaunch: function() {
     //调用API从本地缓存中获取数据
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    // var logs = wx.getStorageSync('logs') || []
+    // logs.unshift(Date.now())
+    // wx.setStorageSync('logs', logs)
+    AV.User.loginWithWeapp().then(user => {
+      this.globalData.user = user.toJSON();
+    }).catch(console.error);
   },
 
   getUserInfo: function(cb) {

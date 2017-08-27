@@ -30,6 +30,11 @@ Page({
       that.setData({
         isHaveData: false,
       })
+        wx.showToast({
+          title: '当前无产品信息',
+        })
+       
+        
       }
       
       var coverImage = 'http://omh0qz95c.bkt.clouddn.com/111499175319_.pic.jpg'

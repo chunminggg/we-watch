@@ -37,28 +37,31 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    Promise.all([netWork.getMainThemeList()]).then(([data2])=>{
+    Promise.all([netWork.getMainScroll(), netWork.getMainThemeList()]).then(([data1,data2])=>{
         netWork.loginWithLeanCloud()
         wx.hideLoading()
        wx.getSystemInfo({
       success: function (res) {
         wx.hideLoading()
+
         that.setData({
           winWidth: res.windowWidth,
           winHeight: res.windowHeight,
           dataArray:data2,
-          // imageArray: data1
+          imageArray: data1
         });
       }
 
     }); 
     })
+    
   },
 
   clickImageidx(e) {
-    var idx = e.currentTarget.dataset.type + 1
+    var idx = e.currentTarget.dataset.type 
+    let naviTitle = e.currentTarget.dataset.title
     wx.navigateTo({
-      url: `../itemList/itemList?type=${idx}&title=${e.currentTarget.dataset.title}`
+      url: `../itemList/itemList?type=${idx}&title=${naviTitle}` ,
     })
   },
 })

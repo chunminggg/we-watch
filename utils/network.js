@@ -19,13 +19,24 @@ var getTestData = {
   },
   //验证短信
   verifyMessageCode(verifyCode, phoneNumber, successCallBack, errorCallBack) {
+    var that = this
     AV.Cloud.verifySmsCode(verifyCode, phoneNumber).then(function () {
       //验证成功
-      successCallBack()
+      that.createNewUser(phoneNumber)
+      setTimeout(function(){
+        successCallBack()
+      },500)
     }, function (err) {
       //验证失败
       errorCallBack(err)
     });
+  },
+  //存储用户信息
+  createNewUser(phoneNumber){
+    AV.User.loginWithWeapp().then(user => {
+      user.setMobilePhoneNumber(phoneNumber);
+      
+    }).catch(console.error);
   },
   //leancloud login
   loginWithLeanCloud() {
@@ -33,6 +44,7 @@ var getTestData = {
     var that = this
     AV.User.loginWithWeapp().then(user => {
 
+     
     }).catch(console.error);
   },
   leanCloudGetUserInfo(phoneNumber) {
@@ -68,11 +80,19 @@ var getTestData = {
       })
     })
   },
+  //产品留存计数
+  makeProductCount(onlyId,countNumber){
+    let todo = AV.Object.createWithoutData('Product', onlyId)
+    todo.set('countNumber',countNumber+1)
+    todo.save()
+  },
   //获取首页列表
   getMainThemeList(successCallback) {
 
     return new Promise((resolve, reject) => {
       var query = new AV.Query('Theme')
+      query.descending('updatedAt')
+      query.addAscending('isSort')
       query.find().then((data) => {
         if (data.length) {
           var dataArray = []
@@ -93,10 +113,12 @@ var getTestData = {
   //获取列表
   getItemList(typeSign, successCallback) {
     var query = new AV.Query('Product')
-    query.equalTo('typeSelected', typeSign)
-    query.select(['name', 'type', 'detailContent', 'type', 'price', 'beiefIntro', 'imageArray'])
-
+    query.equalTo('type', typeSign)
+    query.descending('updatedAt')
+    query.addAscending('isSort')
+    query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray'])
     query.find().then((data) => {
+
       if (data.length) {
         var dataArray = []
 
